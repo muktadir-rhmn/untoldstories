@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserRepository {
+public final class UserRepository {
 	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -20,7 +20,8 @@ public class UserRepository {
 		String sql = "INSERT INTO users(userName, password, cTime, mTime) VALUES(?, ?, ?, ?)";
 
 		try {
-			jdbcTemplate.update(sql, userName, password, System.currentTimeMillis(), System.currentTimeMillis());
+			long curTime = System.currentTimeMillis();
+			jdbcTemplate.update(sql, userName, password, curTime, curTime);
 			return true;
 		} catch (DuplicateKeyException ex) {
 			return false;

@@ -30,7 +30,7 @@ class SignUpRequest {
 
 @RestController
 @RequestMapping(USER_SERVICE_API_ROOT_PATH)
-public class SignUp {
+public final class SignUp {
     private final UserRepository usersRepository;
     private final PasswordHasher passwordHasher;
 

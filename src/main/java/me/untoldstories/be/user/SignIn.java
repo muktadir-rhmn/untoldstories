@@ -38,7 +38,7 @@ class SignInResponse {
 
 @RestController
 @RequestMapping(USER_SERVICE_API_ROOT_PATH)
-public class SignIn {
+public final class SignIn {
     private final PasswordHasher passwordHasher;
     private final UserRepository usersRepository;
     private final TokenManager tokenManager = TokenManager.getInstance();

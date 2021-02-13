@@ -51,14 +51,12 @@ public class TokenManager {
         if (token == null) return null;
 
         try {
-
             DecodedJWT decodedToken = tokenVerifier.verify(token);
             Map<String, Claim> claimMap = decodedToken.getClaims();
             long userID = claimMap.get("userID").asLong();
-            String userEmail = claimMap.get("userEmail").asString();
             String userName = claimMap.get("userName").asString();
 
-            return new UserDescriptor(userID, userEmail, userName);
+            return new UserDescriptor(userID, userName);
         } catch (JWTCreationException | JWTDecodeException exception){
             return null;
         }
