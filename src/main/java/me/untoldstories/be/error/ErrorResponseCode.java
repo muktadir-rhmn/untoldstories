@@ -7,6 +7,6 @@ package me.untoldstories.be.error;
  */
 public interface ErrorResponseCode {
     // 0 => no error
-    int ERROR_MESSAGE_PER_FIELD = 1;
-    int SINGLE_ERROR_MESSAGE = 2;
+    int SINGLE_ERROR_MESSAGE = 1;
+    int ERROR_MESSAGE_PER_FIELD = 2;
 }

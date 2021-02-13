@@ -19,7 +19,7 @@ import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
 
 class SignInRequest {
     @NotBlank(message = "User Name is required")
-    public String userName;
+    public String userName; //todo: what is space is entered?
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, max = 30, message = "Password must have between 8 and 30 characters")
@@ -29,12 +29,10 @@ class SignInRequest {
 class SignInResponse {
     public String token;
     public Long userID;
-    public String userName;
 
-    public SignInResponse(String token, Long userID, String userName) {
+    public SignInResponse(String token, Long userID) {
         this.token = token;
         this.userID = userID;
-        this.userName = userName;
     }
 }
 
@@ -67,7 +65,7 @@ public class SignIn {
 
         String token = tokenManager.generateToken(user.id, user.userName);
 
-        return new SignInResponse(token, user.id, user.userName);
+        return new SignInResponse(token, user.id);
     }
 
 }

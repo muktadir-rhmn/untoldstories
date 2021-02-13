@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
 
 class SignUpRequest {
+
+    @Pattern(regexp = "[a-zA-Z0-9]*", message = "Only English letters and numbers allowed")
     @NotBlank(message = "User Name is required")
     public String userName;
 
@@ -46,7 +49,7 @@ public class SignUp {
         if (hasCreated) return SingleMessageResponse.SUCCESS_RESPONSE;
 
         ErrorMessagePerFieldException exception = new ErrorMessagePerFieldException();
-        exception.addError("userName", "User name already exists");
+        exception.addError("userName", "User name already signed up");
         throw exception;
     }
 }
