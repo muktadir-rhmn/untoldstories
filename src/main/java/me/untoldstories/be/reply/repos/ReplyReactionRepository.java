@@ -17,7 +17,7 @@ public class ReplyReactionRepository {
     }
 
     @Transactional
-    public void addAndRemovePreviousOnes(long userID, long replyID, long commentID, byte reaction) {
+    public void addAndRemovePreviousOnes(long userID, long commentID, long replyID, byte reaction) {
         removeIfExists(userID, replyID);
 
         String sql = "INSERT INTO usersReactToReplies(userID, commentID, replyID, reaction, cTime) VALUES(?, ?, ?, ?, ?)";

@@ -37,7 +37,7 @@ public class ReplyReactionCUD {
             @PathVariable long replyID,
             @RequestBody @Valid AddReplyReactionRequest request
     ) {
-        replyReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), replyID, request.commentID, Reaction.LIKE);
+        replyReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), request.commentID, replyID, Reaction.LIKE);
 
         return SingleMessageResponse.OK;
     }
