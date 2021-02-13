@@ -1,4 +1,4 @@
-package me.untoldstories.be.error;
+package me.untoldstories.be.constants;
 
 /**
  * BE CAREFUL BEFORE CHANGING

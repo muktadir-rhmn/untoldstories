@@ -1,5 +1,6 @@
 package me.untoldstories.be.error;
 
+import me.untoldstories.be.constants.ErrorResponseCode;
 import me.untoldstories.be.error.exceptions.ErrorMessagePerFieldException;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
