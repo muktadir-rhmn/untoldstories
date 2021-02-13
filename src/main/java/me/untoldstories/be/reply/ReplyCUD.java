@@ -38,7 +38,6 @@ class UpdateReplyRequest {
 @RequestMapping(REPLY_SERVICE_API_ROOT_PATH)
 public final class ReplyCUD {
     private final ReplyRepository replyRepository;
-    private final SingleErrorMessageException doesNotExists = new SingleErrorMessageException("Reply does not exists");
 
     @Autowired
     public ReplyCUD(ReplyRepository replyRepository) {
@@ -62,8 +61,8 @@ public final class ReplyCUD {
     ) {
         boolean exists = replyRepository.updateIfExists(userDescriptor.getUserID(), replyID, request.reply);
 
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 
     @DeleteMapping("/{replyID}")
@@ -73,7 +72,7 @@ public final class ReplyCUD {
     ) {
         boolean exists = replyRepository.deleteIfExists(userDescriptor.getUserID(), replyID);
 
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 }

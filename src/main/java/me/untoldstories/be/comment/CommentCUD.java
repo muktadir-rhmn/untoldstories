@@ -34,7 +34,6 @@ class UpdateCommentRequest {
 @RequestMapping(COMMENT_SERVICE_API_ROOT_PATH)
 public final class CommentCUD {
     private final CommentRepository commentRepository;
-    private final SingleErrorMessageException doesNotExists = new SingleErrorMessageException("Comment does not exists");
 
     @Autowired
     public CommentCUD(CommentRepository commentRepository) {
@@ -58,8 +57,8 @@ public final class CommentCUD {
     ) {
         boolean exists = commentRepository.updateIfExists(userDescriptor.getUserID(), commentID, request.comment);
 
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 
     @DeleteMapping("/{commentID}")
@@ -69,7 +68,7 @@ public final class CommentCUD {
     ) {
         boolean exists = commentRepository.deleteIfExists(userDescriptor.getUserID(), commentID);
 
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 }

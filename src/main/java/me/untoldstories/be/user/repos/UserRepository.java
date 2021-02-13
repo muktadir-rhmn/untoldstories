@@ -1,6 +1,7 @@
 package me.untoldstories.be.user.repos;
 
 import me.untoldstories.be.user.dtos.User;
+import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +21,7 @@ public final class UserRepository {
 		String sql = "INSERT INTO users(userName, password, cTime, mTime) VALUES(?, ?, ?, ?)";
 
 		try {
-			long curTime = System.currentTimeMillis();
+			long curTime = Time.curUnixEpoch();
 			jdbcTemplate.update(sql, userName, password, curTime, curTime);
 			return true;
 		} catch (DuplicateKeyException ex) {

@@ -1,6 +1,7 @@
 package me.untoldstories.be.story.repos;
 
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
+import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class StoryRepository {
     public Long add(long userID, String story) {
         String sql = "INSERT INTO stories(userID, body, cTime, mTime) VALUES(?, ?, ?, ?);";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         int nRowsInserted = jdbcTemplate.update(sql, userID, story, curTime, curTime);
         if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
 
@@ -30,7 +31,7 @@ public class StoryRepository {
     public boolean updateIfExists(long userID, Long storyID, String story) {
         String sql = "UPDATE stories SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         return jdbcTemplate.update(sql, story, curTime, storyID, userID) == 1;
     }
 

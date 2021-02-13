@@ -46,7 +46,7 @@ public final class SignUp {
         String hashedPassword = passwordHasher.hash(signUp.password);
         boolean hasCreated = usersRepository.createUserIfNotExists(signUp.userName, hashedPassword);
 
-        if (hasCreated) return SingleMessageResponse.SUCCESS_RESPONSE;
+        if (hasCreated) return SingleMessageResponse.OK;
 
         ErrorMessagePerFieldException exception = new ErrorMessagePerFieldException();
         exception.addError("userName", "User name already signed up");

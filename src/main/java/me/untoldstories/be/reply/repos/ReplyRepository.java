@@ -1,6 +1,7 @@
 package me.untoldstories.be.reply.repos;
 
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
+import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ public class ReplyRepository {
     public Long add(long userID, long storyID, long commentID, String reply) {
         String sql = "INSERT INTO replies(userID, storyID, commentID, body, cTime, mTime) VALUES(?, ?, ?, ?, ?, ?);";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, commentID, reply, curTime, curTime);
         if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
 
@@ -30,7 +31,7 @@ public class ReplyRepository {
     public boolean updateIfExists(long userID, long replyID, String reply) {
         String sql = "UPDATE replies SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         return jdbcTemplate.update(sql, reply, curTime, replyID, userID) == 1;
     }
 

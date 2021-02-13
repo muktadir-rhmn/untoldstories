@@ -22,7 +22,6 @@ class AddUpdateStoryRequest {
 @RequestMapping(STORY_SERVICE_API_ROOT_PATH)
 public final class StoryCUD {
     private final StoryRepository storyRepository;
-    private final SingleErrorMessageException doesNotExists = new SingleErrorMessageException("Story does not exists");
 
     @Autowired
     public StoryCUD(StoryRepository storyRepository) {
@@ -46,8 +45,8 @@ public final class StoryCUD {
     ) {
         boolean exists = storyRepository.updateIfExists(userDescriptor.getUserID(), storyID, request.story);
 
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 
     @DeleteMapping("/{storyID}")
@@ -56,7 +55,7 @@ public final class StoryCUD {
             @PathVariable Long storyID
     ) {
         boolean exists = storyRepository.deleteIfExists(userDescriptor.getUserID(), storyID);
-        if (exists) return SingleMessageResponse.SUCCESS_RESPONSE;
-        else throw doesNotExists;
+        if (exists) return SingleMessageResponse.OK;
+        else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }
 }

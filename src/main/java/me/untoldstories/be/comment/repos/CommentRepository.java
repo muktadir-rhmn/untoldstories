@@ -1,6 +1,7 @@
 package me.untoldstories.be.comment.repos;
 
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
+import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class CommentRepository {
     public Long add(long userID, String comment, @Min(value = 0, message = "Invalid storyID") Long storyID) {
         String sql = "INSERT INTO comments(userID, storyID, body, cTime, mTime) VALUES(?, ?, ?, ?, ?);";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, comment, curTime, curTime);
         if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
 
@@ -33,7 +34,7 @@ public class CommentRepository {
     public boolean updateIfExists(long userID, long commentID, String comment) {
         String sql = "UPDATE comments SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
 
-        long curTime = System.currentTimeMillis();
+        long curTime = Time.curUnixEpoch();
         return jdbcTemplate.update(sql, comment, curTime, commentID, userID) == 1;
     }
 
