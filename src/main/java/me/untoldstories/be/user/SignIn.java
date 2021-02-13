@@ -19,7 +19,7 @@ import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
 
 class SignInRequest {
     @NotBlank(message = "User Name is required")
-    public String userName; //todo: what is space is entered?
+    public String userName;
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, max = 30, message = "Password must have between 8 and 30 characters")
