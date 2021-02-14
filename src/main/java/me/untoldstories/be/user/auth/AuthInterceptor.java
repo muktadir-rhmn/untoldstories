@@ -1,6 +1,6 @@
 package me.untoldstories.be.user.auth;
 
-import me.untoldstories.be.user.UserDescriptor;
+import me.untoldstories.be.user.pojos.UserDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;

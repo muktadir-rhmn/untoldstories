@@ -1,12 +1,16 @@
 package me.untoldstories.be.user.repos;
 
 import me.untoldstories.be.user.entities.UserEntity;
+import me.untoldstories.be.user.pojos.User;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public final class UserRepository {
@@ -29,7 +33,7 @@ public final class UserRepository {
 		}
 	}
 
-	public UserEntity getUserByUserName(String userName) {
+	public UserEntity getUserEntityByUserName(String userName) {
 		String sql = "SELECT id, userName, password, cTime, mTime FROM users WHERE userName=?";
 
 		try {
@@ -40,5 +44,30 @@ public final class UserRepository {
 		} catch (EmptyResultDataAccessException exception) {
 			return null;
 		}
+	}
+
+	public User fetchUserByUserID(long userID) {
+		User user = new User();
+		String sql = "SELECT userName FROM users WHERE id=?";
+
+		user.id = userID;
+		user.userName = jdbcTemplate.queryForObject(sql, String.class, userID);
+		return user;
+	}
+
+	public Map<Long, User> fetchUserNamesByIDs(String userIDList) {
+		String sql = new StringBuilder("SELECT id, userName FROM users WHERE id IN (")
+				.append(userIDList)
+				.append(')')
+				.toString();
+
+		Map<Long, User> userMap = new HashMap<>();
+		jdbcTemplate.query(sql, resultSet -> {
+			User user = new User();
+			user.id = resultSet.getLong("id");
+			user.userName = resultSet.getString("userName");
+			userMap.put(user.id, user);
+		});
+		return userMap;
 	}
 }

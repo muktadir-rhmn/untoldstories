@@ -2,7 +2,7 @@ package me.untoldstories.be.comment;
 
 import me.untoldstories.be.comment.repos.CommentRepository;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
-import me.untoldstories.be.user.UserDescriptor;
+import me.untoldstories.be.user.pojos.UserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleIDResponse;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -58,7 +58,7 @@ public final class SignIn {
     /// caching exception
     private final SingleErrorMessageException noUserException = new SingleErrorMessageException("User name & password do not match any account");
     private SignInResponse manageSignIn(SignInRequest request) {
-        UserEntity userEntity = usersRepository.getUserByUserName(request.userName);
+        UserEntity userEntity = usersRepository.getUserEntityByUserName(request.userName);
 
         String hashedPassword = passwordHasher.hash(request.password);
         if (userEntity == null || !userEntity.password.equals(hashedPassword)) throw noUserException;

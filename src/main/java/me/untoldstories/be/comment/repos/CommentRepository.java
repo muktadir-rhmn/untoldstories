@@ -3,11 +3,14 @@ package me.untoldstories.be.comment.repos;
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Min;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class CommentRepository {
@@ -42,5 +45,28 @@ public class CommentRepository {
         String sql = "DELETE FROM comments WHERE id=? AND userID=?;";
 
         return jdbcTemplate.update(sql, commentID, userID) == 1;
+    }
+
+    public int fetchNumOfCommentsOfStory(long storyID) {
+        String sql = "SELECT COUNT(id) FROM comments WHERE storyID=?;";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, Integer.class, storyID);
+        } catch (EmptyResultDataAccessException exception) {
+            return 0;
+        }
+    }
+
+    public Map<Long, Integer> fetchNumOfCommentsOfStory(String storyIDList) {
+        String sql = new StringBuilder("SELECT storyID, COUNT(id) AS nComments FROM comments WHERE storyID in (")
+                .append(storyIDList)
+                .append(") GROUP BY storyID;")
+                .toString();
+
+        Map<Long, Integer> nCommentsMap = new HashMap<>();
+        jdbcTemplate.query(sql, resultSet -> {
+            nCommentsMap.put(resultSet.getLong("storyID"), resultSet.getInt("nComments"));
+        });
+        return nCommentsMap;
     }
 }

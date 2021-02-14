@@ -1,13 +1,19 @@
 package me.untoldstories.be.story.repos;
 
 import me.untoldstories.be.constants.StoryPrivacy;
+import me.untoldstories.be.story.dtos.Story;
 import me.untoldstories.be.utils.Assertion;
+import me.untoldstories.be.utils.DatabaseUtils;
 import me.untoldstories.be.utils.Time;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class StoryRepository {
@@ -57,5 +63,42 @@ public class StoryRepository {
         String sql = "DELETE FROM stories WHERE id=? AND userID=?;";
 
         return jdbcTemplate.update(sql, storyID, userID) == 1;
+    }
+
+    public Story fetchStoryByID(long storyID, long requestingUserID) {
+        String sql = "SELECT " +
+                Story.getColumnNameList() +
+                " FROM stories WHERE id = ? AND (privacy=? OR userID=?);";
+        try {
+            return jdbcTemplate.queryForObject(sql, Story.getRowMapper(), storyID, StoryPrivacy.PUBLIC, requestingUserID);
+        } catch (EmptyResultDataAccessException exception) {
+            return null;
+        }
+    }
+
+    public List<Story> fetchPublicStoriesByStoryIDs(List<Long> storyIDs) {
+        if (storyIDs.size() == 0) return Collections.emptyList();
+
+        String sqlSetString = DatabaseUtils.makeStringList(storyIDs);
+        String sql = "SELECT " +
+                Story.getColumnNameList() +
+                " FROM stories WHERE id IN " +
+                sqlSetString +
+                " AND privacy=? ;";
+
+        return jdbcTemplate.query(sql, Story.getRowMapper(), StoryPrivacy.PUBLIC);
+    }
+
+    public List<Story> fetchStoriesByUserID(long userID, int pageNo, int pageSize, long requestingUserID) {
+        StringBuilder sql = new StringBuilder("SELECT ")
+                .append(Story.getColumnNameList())
+                .append(" FROM stories WHERE userID=? ");
+        if (userID == requestingUserID) {
+            sql.append(" ORDER BY cTime LIMIT ?, ?");
+            return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, pageNo * pageSize, pageSize);
+        } else {
+            sql.append(" AND privacy=?").append(" ORDER BY cTime LIMIT ?, ?");
+            return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, StoryPrivacy.PUBLIC, pageNo * pageSize, pageSize);
+        }
     }
 }

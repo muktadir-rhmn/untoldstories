@@ -1,7 +1,6 @@
-package me.untoldstories.be.user;
+package me.untoldstories.be.user.pojos;
 
 public class UserDescriptor {
-
     private final long userID;
     private final String userName;
 
