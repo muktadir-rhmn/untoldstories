@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -48,6 +49,12 @@ class GlobalExceptionHandler {
         return new SingleMessageResponse(exception.getMessage());
     }
 
+    private final SingleMessageResponse mediaTypeNotSupportedErrorResponse = new SingleMessageResponse("Media type not supported");
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public Object handleMediaTypeNotSupportedError(HttpServletRequest request, Exception exception) {
+        return mediaTypeNotSupportedErrorResponse;
+    }
     private final SingleMessageResponse messageNotReadableErrorResponse = new SingleMessageResponse("Invalid request body");
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
