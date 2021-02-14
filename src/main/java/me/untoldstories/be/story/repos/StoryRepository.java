@@ -1,7 +1,9 @@
 package me.untoldstories.be.story.repos;
 
-import me.untoldstories.be.error.exceptions.InternalServerErrorException;
+import me.untoldstories.be.constants.StoryPrivacy;
+import me.untoldstories.be.utils.Assertion;
 import me.untoldstories.be.utils.Time;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -17,22 +19,38 @@ public class StoryRepository {
     }
 
     @Transactional
-    public Long add(long userID, String story) {
-        String sql = "INSERT INTO stories(userID, body, cTime, mTime) VALUES(?, ?, ?, ?);";
+    public Long add(
+            long userID,
+            String story,
+            @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE) int privacy
+    ) {
+        String sql = "INSERT INTO stories(userID, body, privacy, cTime, mTime) VALUES(?, ?, ?, ?, ?);";
 
         long curTime = Time.curUnixEpoch();
-        int nRowsInserted = jdbcTemplate.update(sql, userID, story, curTime, curTime);
-        if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
+        int nRowsInserted = jdbcTemplate.update(sql, userID, story, privacy, curTime, curTime);
+        Assertion.assertEqual(nRowsInserted, 1);
 
         sql = "SELECT LAST_INSERT_ID();";
         return jdbcTemplate.queryForObject(sql, Long.class);
     }
 
-    public boolean updateIfExists(long userID, Long storyID, String story) {
-        String sql = "UPDATE stories SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
+    public boolean updateIfExists(
+            long userID,
+            Long storyID,
+            String story,
+            @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE) int privacy
+    ) {
+        String sql = "UPDATE stories SET body = ?, privacy=?, mTime = ? WHERE id=? AND userID = ?;";
 
         long curTime = Time.curUnixEpoch();
-        return jdbcTemplate.update(sql, story, curTime, storyID, userID) == 1;
+        return jdbcTemplate.update(sql, story, privacy, curTime, storyID, userID) == 1;
+    }
+
+    public boolean updatePrivacyIfExists(long userID, Long storyID, int privacy) {
+        String sql = "UPDATE stories SET privacy=?, mTime = ? WHERE id=? AND userID = ?;";
+
+        long curTime = Time.curUnixEpoch();
+        return jdbcTemplate.update(sql, privacy, curTime, storyID, userID) == 1;
     }
 
     public boolean deleteIfExists(long userID, Long storyID) {
