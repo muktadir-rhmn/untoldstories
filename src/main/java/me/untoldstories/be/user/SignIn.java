@@ -3,7 +3,7 @@ package me.untoldstories.be.user;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.user.auth.SigninNotRequired;
 import me.untoldstories.be.user.auth.TokenManager;
-import me.untoldstories.be.user.dtos.User;
+import me.untoldstories.be.user.entities.UserEntity;
 import me.untoldstories.be.user.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,14 +58,14 @@ public final class SignIn {
     /// caching exception
     private final SingleErrorMessageException noUserException = new SingleErrorMessageException("User name & password do not match any account");
     private SignInResponse manageSignIn(SignInRequest request) {
-        User user = usersRepository.getUserByUserName(request.userName);
+        UserEntity userEntity = usersRepository.getUserByUserName(request.userName);
 
         String hashedPassword = passwordHasher.hash(request.password);
-        if (user == null || !user.password.equals(hashedPassword)) throw noUserException;
+        if (userEntity == null || !userEntity.password.equals(hashedPassword)) throw noUserException;
 
-        String token = tokenManager.generateToken(user.id, user.userName);
+        String token = tokenManager.generateToken(userEntity.id, userEntity.userName);
 
-        return new SignInResponse(token, user.id);
+        return new SignInResponse(token, userEntity.id);
     }
 
 }
