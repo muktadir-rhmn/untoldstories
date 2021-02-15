@@ -1,5 +1,6 @@
 package me.untoldstories.be.comment.repos;
 
+import me.untoldstories.be.comment.dtos.Comment;
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Min;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -68,5 +70,14 @@ public class CommentRepository {
             nCommentsMap.put(resultSet.getLong("storyID"), resultSet.getInt("nComments"));
         });
         return nCommentsMap;
+    }
+
+    public List<Comment> fetchCommentsOfStory(long storyID) {
+        String sql = new StringBuilder("SELECT ")
+                .append(Comment.getColumnNameList())
+                .append(" FROM comments WHERE storyID=? ORDER BY cTime DESC;")
+                .toString();
+
+        return jdbcTemplate.query(sql, Comment.getRowMapper(), storyID);
     }
 }

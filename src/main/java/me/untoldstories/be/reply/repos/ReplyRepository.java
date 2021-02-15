@@ -1,11 +1,14 @@
 package me.untoldstories.be.reply.repos;
 
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
+import me.untoldstories.be.reply.dtos.Reply;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ReplyRepository {
@@ -39,5 +42,14 @@ public class ReplyRepository {
         String sql = "DELETE FROM replies WHERE id=? AND userID=?;";
 
         return jdbcTemplate.update(sql, replyID, userID) == 1;
+    }
+
+    public List<Reply> fetchRepliesOfStory(long storyID) {
+        String sql = new StringBuilder("SELECT ")
+                .append(Reply.getColumnNameList())
+                .append(" FROM replies WHERE storyID=? ORDER BY cTime;")
+                .toString();
+
+        return jdbcTemplate.query(sql, Reply.getRowMapper(), storyID);
     }
 }
