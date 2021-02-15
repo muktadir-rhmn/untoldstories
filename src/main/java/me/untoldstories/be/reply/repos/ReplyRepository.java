@@ -17,22 +17,22 @@ public class ReplyRepository {
     }
 
     @Transactional
-    public Long add(long userID, long storyID, long commentID, String reply) {
+    public Long add(long userID, long storyID, long commentID, String body) {
         String sql = "INSERT INTO replies(userID, storyID, commentID, body, cTime, mTime) VALUES(?, ?, ?, ?, ?, ?);";
 
         long curTime = Time.curUnixEpoch();
-        int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, commentID, reply, curTime, curTime);
+        int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, commentID, body, curTime, curTime);
         if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
 
         sql = "SELECT LAST_INSERT_ID();";
         return jdbcTemplate.queryForObject(sql, Long.class);
     }
 
-    public boolean updateIfExists(long userID, long replyID, String reply) {
+    public boolean updateIfExists(long userID, long replyID, String body) {
         String sql = "UPDATE replies SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
 
         long curTime = Time.curUnixEpoch();
-        return jdbcTemplate.update(sql, reply, curTime, replyID, userID) == 1;
+        return jdbcTemplate.update(sql, body, curTime, replyID, userID) == 1;
     }
 
     public boolean deleteIfExists(long userID, long replyID) {

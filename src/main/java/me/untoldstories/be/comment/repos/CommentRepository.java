@@ -23,22 +23,22 @@ public class CommentRepository {
 
     //todo: how to handle foreign key constraint efficiently? or just ignore?
     @Transactional
-    public Long add(long userID, String comment, @Min(value = 0, message = "Invalid storyID") Long storyID) {
+    public Long add(long userID, String body, @Min(value = 0, message = "Invalid storyID") Long storyID) {
         String sql = "INSERT INTO comments(userID, storyID, body, cTime, mTime) VALUES(?, ?, ?, ?, ?);";
 
         long curTime = Time.curUnixEpoch();
-        int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, comment, curTime, curTime);
+        int nRowsInserted = jdbcTemplate.update(sql, userID, storyID, body, curTime, curTime);
         if (nRowsInserted < 1) throw InternalServerErrorException.EMPTY_EXCEPTION;
 
         sql = "SELECT LAST_INSERT_ID();";
         return jdbcTemplate.queryForObject(sql, Long.class);
     }
 
-    public boolean updateIfExists(long userID, long commentID, String comment) {
+    public boolean updateIfExists(long userID, long commentID, String body) {
         String sql = "UPDATE comments SET body = ?, mTime = ? WHERE id=? AND userID = ?;";
 
         long curTime = Time.curUnixEpoch();
-        return jdbcTemplate.update(sql, comment, curTime, commentID, userID) == 1;
+        return jdbcTemplate.update(sql, body, curTime, commentID, userID) == 1;
     }
 
     public boolean deleteIfExists(long userID, long commentID) {

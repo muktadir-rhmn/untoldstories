@@ -29,10 +29,12 @@ class SignInRequest {
 class SignInResponse {
     public String token;
     public Long userID;
+    public String userName;
 
-    public SignInResponse(String token, Long userID) {
+    public SignInResponse(String token, Long userID, String userName) {
         this.token = token;
         this.userID = userID;
+        this.userName = userName;
     }
 }
 
@@ -65,7 +67,7 @@ public final class SignIn {
 
         String token = tokenManager.generateToken(userEntity.id, userEntity.userName);
 
-        return new SignInResponse(token, userEntity.id);
+        return new SignInResponse(token, userEntity.id, userEntity.userName);
     }
 
 }

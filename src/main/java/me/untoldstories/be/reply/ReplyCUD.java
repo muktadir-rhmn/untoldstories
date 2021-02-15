@@ -18,7 +18,7 @@ import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
 
 class AddReplyRequest {
     @NotBlank(message = "Reply must not be blank")
-    public String reply;
+    public String body;
 
     @NotNull(message = "commentID required")
     @Min(value = 0, message = "Invalid commentID")
@@ -31,7 +31,7 @@ class AddReplyRequest {
 
 class UpdateReplyRequest {
     @NotBlank(message = "Reply must not be blank")
-    public String reply;
+    public String body;
 }
 
 @RestController
@@ -49,7 +49,7 @@ public final class ReplyCUD {
             @RequestAttribute("user") UserDescriptor userDescriptor,
             @RequestBody @Valid AddReplyRequest request
     ) {
-        Long replyID = replyRepository.add(userDescriptor.getUserID(), request.storyID, request.commentID, request.reply);
+        Long replyID = replyRepository.add(userDescriptor.getUserID(), request.storyID, request.commentID, request.body);
         return new SingleIDResponse(replyID);
     }
 
@@ -59,7 +59,7 @@ public final class ReplyCUD {
             @PathVariable long replyID,
             @RequestBody @Valid UpdateReplyRequest request
     ) {
-        boolean exists = replyRepository.updateIfExists(userDescriptor.getUserID(), replyID, request.reply);
+        boolean exists = replyRepository.updateIfExists(userDescriptor.getUserID(), replyID, request.body);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

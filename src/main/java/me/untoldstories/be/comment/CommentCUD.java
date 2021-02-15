@@ -18,7 +18,7 @@ import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_ROOT_PATH
 
 class AddCommentRequest {
     @NotBlank(message = "Comment must not be blank")
-    public String comment;
+    public String body;
 
     @Min(value = 0, message = "Invalid storyID")
     @NotNull(message = "Invalid storyID")
@@ -27,7 +27,7 @@ class AddCommentRequest {
 
 class UpdateCommentRequest {
     @NotBlank(message = "Comment must not be blank")
-    public String comment;
+    public String body;
 }
 
 @RestController
@@ -45,7 +45,7 @@ public final class CommentCUD {
             @RequestAttribute("user") UserDescriptor userDescriptor,
             @RequestBody @Valid AddCommentRequest request
     ) {
-        Long commentID = commentRepository.add(userDescriptor.getUserID(), request.comment, request.storyID);
+        Long commentID = commentRepository.add(userDescriptor.getUserID(), request.body, request.storyID);
         return new SingleIDResponse(commentID);
     }
 
@@ -55,7 +55,7 @@ public final class CommentCUD {
             @PathVariable long commentID,
             @RequestBody @Valid UpdateCommentRequest request
     ) {
-        boolean exists = commentRepository.updateIfExists(userDescriptor.getUserID(), commentID, request.comment);
+        boolean exists = commentRepository.updateIfExists(userDescriptor.getUserID(), commentID, request.body);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
