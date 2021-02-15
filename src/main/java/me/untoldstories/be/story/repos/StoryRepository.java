@@ -94,7 +94,7 @@ public class StoryRepository {
                 .append(Story.getColumnNameList())
                 .append(" FROM stories WHERE userID=? ");
         if (userID == requestingUserID) {
-            sql.append(" ORDER BY cTime LIMIT ?, ?");
+            sql.append(" ORDER BY cTime DESC LIMIT ?, ?");
             return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, pageNo * pageSize, pageSize);
         } else {
             sql.append(" AND privacy=?").append(" ORDER BY cTime LIMIT ?, ?");
