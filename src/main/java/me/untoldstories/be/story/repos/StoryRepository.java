@@ -27,13 +27,13 @@ public class StoryRepository {
     @Transactional
     public Long add(
             long userID,
-            String story,
+            String body,
             @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE) int privacy
     ) {
         String sql = "INSERT INTO stories(userID, body, privacy, cTime, mTime) VALUES(?, ?, ?, ?, ?);";
 
         long curTime = Time.curUnixEpoch();
-        int nRowsInserted = jdbcTemplate.update(sql, userID, story, privacy, curTime, curTime);
+        int nRowsInserted = jdbcTemplate.update(sql, userID, body, privacy, curTime, curTime);
         Assertion.assertEqual(nRowsInserted, 1);
 
         sql = "SELECT LAST_INSERT_ID();";
@@ -43,13 +43,13 @@ public class StoryRepository {
     public boolean updateIfExists(
             long userID,
             Long storyID,
-            String story,
+            String body,
             @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE) int privacy
     ) {
         String sql = "UPDATE stories SET body = ?, privacy=?, mTime = ? WHERE id=? AND userID = ?;";
 
         long curTime = Time.curUnixEpoch();
-        return jdbcTemplate.update(sql, story, privacy, curTime, storyID, userID) == 1;
+        return jdbcTemplate.update(sql, body, privacy, curTime, storyID, userID) == 1;
     }
 
     public boolean updatePrivacyIfExists(long userID, Long storyID, int privacy) {

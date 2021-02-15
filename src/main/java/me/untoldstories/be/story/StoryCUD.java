@@ -17,7 +17,7 @@ import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
 
 class AddUpdateStoryRequest {
     @NotBlank(message = "Story must not be empty")
-    public String story;
+    public String body;
 
     @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE)
     public int privacy;
@@ -43,7 +43,7 @@ public final class StoryCUD {
             @RequestAttribute("user") UserDescriptor userDescriptor,
             @RequestBody @Valid AddUpdateStoryRequest request
     ) {
-        Long storyID = storyRepository.add(userDescriptor.getUserID(), request.story, request.privacy);
+        Long storyID = storyRepository.add(userDescriptor.getUserID(), request.body, request.privacy);
         return new SingleIDResponse(storyID);
     }
 
@@ -53,7 +53,7 @@ public final class StoryCUD {
             @PathVariable Long storyID,
             @RequestBody @Valid AddUpdateStoryRequest request
     ) {
-        boolean exists = storyRepository.updateIfExists(userDescriptor.getUserID(), storyID, request.story, request.privacy);
+        boolean exists = storyRepository.updateIfExists(userDescriptor.getUserID(), storyID, request.body, request.privacy);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
