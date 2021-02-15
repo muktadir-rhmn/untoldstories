@@ -44,12 +44,12 @@ public class ReplyRepository {
         return jdbcTemplate.update(sql, replyID, userID) == 1;
     }
 
-    public List<Reply> fetchRepliesOfStory(long storyID) {
+    public List<Reply> fetchRepliesOfComment(long commentID) {
         String sql = new StringBuilder("SELECT ")
                 .append(Reply.getColumnNameList())
-                .append(" FROM replies WHERE storyID=? ORDER BY cTime;")
+                .append(" FROM replies WHERE commentID=? ORDER BY cTime;")
                 .toString();
 
-        return jdbcTemplate.query(sql, Reply.getRowMapper(), storyID);
+        return jdbcTemplate.query(sql, Reply.getRowMapper(), commentID);
     }
 }

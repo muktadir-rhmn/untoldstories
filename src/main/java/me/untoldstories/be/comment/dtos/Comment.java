@@ -8,6 +8,10 @@ public class Comment {
     public User author = new User();
     public String body;
 
+    public int nLikes;
+    public int nDislikes;
+    public byte myReaction;
+
     public long cTime;
     public long mTime;
 

@@ -8,7 +8,6 @@ public class DatabaseUtils {
         for (long num: nums) {
             sb.append(num).append(',');
         }
-        sb.insert(sb.length() - 1, ' ');
-        return sb.toString();
+        return sb.substring(0, sb.length() - 1);
     }
 }

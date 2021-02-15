@@ -59,6 +59,8 @@ public class StoryDetailsAggregator {
     }
 
     private void populateRemainingFields(List<Story> stories, Long requestingUserID) {
+        if (stories.size() == 0) return;
+
         StringBuilder sbStoryIDList = new StringBuilder();
         StringBuilder sbUserIDList = new StringBuilder();
         for (Story story : stories) {
@@ -68,7 +70,7 @@ public class StoryDetailsAggregator {
         String storyIDList = sbStoryIDList.substring(0, sbStoryIDList.length() - 1);
         String userIDList = sbUserIDList.substring(0, sbUserIDList.length() - 1);
 
-        Map<Long, User> users = userInternalAPI.fetchUserNamesByIDs(userIDList);
+        Map<Long, User> users = userInternalAPI.fetchUsersByIDs(userIDList);
         Map<Long, Integer> nLikes = storyReactionRepository.fetchNumOfLikes(storyIDList);
         Map<Long, Byte> myReactions = storyReactionRepository.fetchReactionsOfUser(storyIDList, requestingUserID);
         Map<Long, Integer> nComments = commentInternalAPI.fetchNumOfCommentsOfStories(storyIDList);

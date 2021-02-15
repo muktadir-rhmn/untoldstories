@@ -9,6 +9,10 @@ public class Reply {
     public long commentID;
     public String body;
 
+    public int nLikes;
+    public int nDislikes;
+    public byte myReaction;
+
     public long cTime;
     public long mTime;
 

@@ -21,7 +21,7 @@ public class UserInternalAPI {
         return userRepository.fetchUserByUserID(userID);
     }
 
-    public Map<Long, User> fetchUserNamesByIDs(String userIDList) {
+    public Map<Long, User> fetchUsersByIDs(String userIDList) {
         return userRepository.fetchUserNamesByIDs(userIDList);
     }
 }
