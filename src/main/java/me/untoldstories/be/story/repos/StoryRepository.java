@@ -101,4 +101,13 @@ public class StoryRepository {
             return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, StoryPrivacy.PUBLIC, pageNo * pageSize, pageSize);
         }
     }
+
+    public List<Story> fetchRecentPublicStories(int pageNo, int pageSize) {
+        String sql = new StringBuilder("SELECT ")
+                .append(Story.getColumnNameList())
+                .append(" FROM stories WHERE privacy=? ORDER BY cTime DESC LIMIT ?, ?;")
+                .toString();
+
+        return jdbcTemplate.query(sql, Story.getRowMapper(), StoryPrivacy.PUBLIC, pageNo * pageSize, pageSize);
+    }
 }

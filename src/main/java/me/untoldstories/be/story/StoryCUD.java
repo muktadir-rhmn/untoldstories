@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
 
 class AddUpdateStoryRequest {
     @NotBlank(message = "Story must not be empty")
-    @Max(value = 5000, message = "Too lengthy")
+    @Size(max = 5000, message = "Too lengthy")
     public String body;
 
     @Range(min = StoryPrivacy.LOWEST_VALUE, max = StoryPrivacy.HIGHEST_VALUE)
