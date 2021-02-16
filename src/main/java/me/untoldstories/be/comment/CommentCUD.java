@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_ROOT_PATH
 
 class AddCommentRequest {
     @NotBlank(message = "Comment must not be blank")
+    @Max(value = 1000, message = "Too lengthy")
     public String body;
 
     @Min(value = 0, message = "Invalid storyID")
@@ -27,6 +29,7 @@ class AddCommentRequest {
 
 class UpdateCommentRequest {
     @NotBlank(message = "Comment must not be blank")
+    @Max(value = 1000, message = "Too lengthy")
     public String body;
 }
 

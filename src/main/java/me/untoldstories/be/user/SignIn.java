@@ -19,6 +19,7 @@ import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
 
 class SignInRequest {
     @NotBlank(message = "User Name is required")
+    @Size(max = 50, message = "Not found")
     public String userName;
 
     @NotBlank(message = "Password is required")

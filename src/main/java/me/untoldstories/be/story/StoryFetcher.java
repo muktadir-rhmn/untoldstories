@@ -3,9 +3,12 @@ package me.untoldstories.be.story;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.story.dtos.Story;
 import me.untoldstories.be.user.pojos.UserDescriptor;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import java.util.List;
 
 import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
@@ -45,6 +48,7 @@ public class StoryFetcher {
             @RequestParam int pageNo,
             @RequestParam int pageSize
     ) {
+        if (pageNo < 0 || pageNo > 50 || pageSize > 50 || pageSize < 0) throw SingleErrorMessageException.DOES_NOT_EXIST;
 
         List<Story> stories = storyDetailsAggregator.fetchStoriesOfUser(userID, pageNo, pageSize, userDescriptor.getUserID());
         return new FetchStoriesResponse(stories);

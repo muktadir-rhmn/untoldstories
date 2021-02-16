@@ -21,6 +21,7 @@ class SignUpRequest {
 
     @Pattern(regexp = "[a-zA-Z0-9]*", message = "Only English letters and numbers allowed")
     @NotBlank(message = "User Name is required")
+    @Size(min = 1, max = 50, message = "Please choose a shorter name")
     public String userName;
 
     @NotBlank(message = "Password is required")
