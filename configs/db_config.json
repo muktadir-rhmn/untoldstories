@@ -2,6 +2,5 @@
   "vendor": "MySQL",
   "url": "jdbc:mysql://localhost:3306/untoldstories",
   "userName": "untoldstories",
-  "password": "150250",
-  "connectionPoolSize": 5
+  "password": "150250"
 }

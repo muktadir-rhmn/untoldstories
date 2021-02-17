@@ -97,7 +97,7 @@ public class StoryRepository {
             sql.append(" ORDER BY cTime DESC LIMIT ?, ?");
             return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, pageNo * pageSize, pageSize);
         } else {
-            sql.append(" AND privacy=?").append(" ORDER BY cTime LIMIT ?, ?");
+            sql.append(" AND privacy=?").append(" ORDER BY cTime DESC LIMIT ?, ?");
             return jdbcTemplate.query(sql.toString(), Story.getRowMapper(), userID, StoryPrivacy.PUBLIC, pageNo * pageSize, pageSize);
         }
     }

@@ -68,13 +68,13 @@ public class StoryReactionRepository {
     public Map<Long, Byte> fetchReactionsOfUser(String storyIDList, Long requestingUserID) {
         String sql = new StringBuilder("SELECT storyID, reaction FROM usersReactToStories WHERE storyID IN (")
                 .append(storyIDList)
-                .append(')')
+                .append(") AND userID=?;")
                 .toString();
 
         Map<Long, Byte> reactionMap = new HashMap<>();
         jdbcTemplate.query(sql, resultSet -> {
             reactionMap.put(resultSet.getLong("storyID"), resultSet.getByte("reaction"));
-        });
+        }, requestingUserID);
         return reactionMap;
     }
 }
