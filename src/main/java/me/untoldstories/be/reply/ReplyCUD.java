@@ -10,16 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
 
 class AddReplyRequest {
     @NotBlank(message = "Reply must not be blank")
-    @Max(value = 1000, message = "Too lengthy")
+    @Size(max = 1000, message = "Too lengthy")
     public String body;
 
     @NotNull(message = "commentID required")
@@ -33,7 +30,7 @@ class AddReplyRequest {
 
 class UpdateReplyRequest {
     @NotBlank(message = "Reply must not be blank")
-    @Max(value = 1000, message = "Too lengthy")
+    @Size(max = 1000, message = "Too lengthy")
     public String body;
 }
 
