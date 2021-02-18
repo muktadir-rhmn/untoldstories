@@ -1,6 +1,6 @@
 package me.untoldstories.be.reply;
 
-import me.untoldstories.be.reply.dtos.Reply;
+import me.untoldstories.be.reply.pojos.Reply;
 import me.untoldstories.be.reply.repos.ReplyReactionRepository;
 import me.untoldstories.be.reply.repos.ReplyRepository;
 import me.untoldstories.be.user.UserInternalAPI;

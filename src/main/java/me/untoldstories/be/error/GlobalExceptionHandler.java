@@ -3,7 +3,7 @@ package me.untoldstories.be.error;
 import me.untoldstories.be.constants.ErrorResponseCode;
 import me.untoldstories.be.error.exceptions.ErrorMessagePerFieldException;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
-import me.untoldstories.be.utils.dtos.SingleMessageResponse;
+import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

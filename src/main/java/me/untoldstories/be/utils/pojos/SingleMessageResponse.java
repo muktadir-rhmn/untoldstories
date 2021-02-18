@@ -1,4 +1,4 @@
-package me.untoldstories.be.utils.dtos;
+package me.untoldstories.be.utils.pojos;
 
 public class SingleMessageResponse {
 	public final static SingleMessageResponse OK = new SingleMessageResponse("ok"); //for reusing the same object

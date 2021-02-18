@@ -4,8 +4,8 @@ package me.untoldstories.be.reply;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.reply.repos.ReplyRepository;
 import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
-import me.untoldstories.be.utils.dtos.SingleIDResponse;
-import me.untoldstories.be.utils.dtos.SingleMessageResponse;
+import me.untoldstories.be.utils.pojos.SingleIDResponse;
+import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

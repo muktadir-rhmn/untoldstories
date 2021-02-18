@@ -4,7 +4,7 @@ import me.untoldstories.be.comment.repos.CommentReactionRepository;
 import me.untoldstories.be.constants.Reaction;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
-import me.untoldstories.be.utils.dtos.SingleMessageResponse;
+import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

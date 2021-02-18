@@ -1,4 +1,4 @@
-package me.untoldstories.be.utils.dtos;
+package me.untoldstories.be.utils.pojos;
 
 public class SingleIDResponse {
 	private final Long id;

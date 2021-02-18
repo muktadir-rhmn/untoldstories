@@ -1,7 +1,7 @@
 package me.untoldstories.be.story;
 
 import me.untoldstories.be.comment.CommentInternalAPI;
-import me.untoldstories.be.story.dtos.Story;
+import me.untoldstories.be.story.pojos.Story;
 import me.untoldstories.be.story.repos.StoryReactionRepository;
 import me.untoldstories.be.user.UserInternalAPI;
 import me.untoldstories.be.user.pojos.User;

@@ -1,4 +1,4 @@
-package me.untoldstories.be.story.dtos;
+package me.untoldstories.be.story.pojos;
 
 import me.untoldstories.be.user.pojos.User;
 import org.springframework.jdbc.core.RowMapper;

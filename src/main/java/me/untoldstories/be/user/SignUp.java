@@ -3,7 +3,7 @@ package me.untoldstories.be.user;
 import me.untoldstories.be.error.exceptions.ErrorMessagePerFieldException;
 import me.untoldstories.be.user.auth.SigninNotRequired;
 import me.untoldstories.be.user.repos.UserRepository;
-import me.untoldstories.be.utils.dtos.SingleMessageResponse;
+import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

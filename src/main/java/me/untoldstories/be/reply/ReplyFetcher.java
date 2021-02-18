@@ -1,6 +1,6 @@
 package me.untoldstories.be.reply;
 
-import me.untoldstories.be.reply.dtos.Reply;
+import me.untoldstories.be.reply.pojos.Reply;
 import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

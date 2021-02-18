@@ -1,7 +1,7 @@
 package me.untoldstories.be.reply.repos;
 
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
-import me.untoldstories.be.reply.dtos.Reply;
+import me.untoldstories.be.reply.pojos.Reply;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

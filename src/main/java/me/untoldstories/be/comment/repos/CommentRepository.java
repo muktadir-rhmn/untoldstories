@@ -1,6 +1,6 @@
 package me.untoldstories.be.comment.repos;
 
-import me.untoldstories.be.comment.dtos.Comment;
+import me.untoldstories.be.comment.pojos.Comment;
 import me.untoldstories.be.error.exceptions.InternalServerErrorException;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;

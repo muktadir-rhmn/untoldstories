@@ -1,6 +1,6 @@
 package me.untoldstories.be.comment;
 
-import me.untoldstories.be.comment.dtos.Comment;
+import me.untoldstories.be.comment.pojos.Comment;
 import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

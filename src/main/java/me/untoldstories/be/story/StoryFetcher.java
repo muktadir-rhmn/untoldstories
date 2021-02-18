@@ -1,7 +1,7 @@
 package me.untoldstories.be.story;
 
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
-import me.untoldstories.be.story.dtos.Story;
+import me.untoldstories.be.story.pojos.Story;
 import me.untoldstories.be.story.repos.StoryRepository;
 import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;

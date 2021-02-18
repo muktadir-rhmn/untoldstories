@@ -1,6 +1,6 @@
 package me.untoldstories.be.comment;
 
-import me.untoldstories.be.comment.dtos.Comment;
+import me.untoldstories.be.comment.pojos.Comment;
 import me.untoldstories.be.comment.repos.CommentReactionRepository;
 import me.untoldstories.be.comment.repos.CommentRepository;
 import me.untoldstories.be.user.UserInternalAPI;

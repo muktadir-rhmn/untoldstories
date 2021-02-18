@@ -1,7 +1,7 @@
 package me.untoldstories.be.story.repos;
 
 import me.untoldstories.be.constants.StoryPrivacy;
-import me.untoldstories.be.story.dtos.Story;
+import me.untoldstories.be.story.pojos.Story;
 import me.untoldstories.be.utils.Assertion;
 import me.untoldstories.be.utils.DatabaseUtils;
 import me.untoldstories.be.utils.Time;

@@ -1,7 +1,7 @@
 package me.untoldstories.be.newsfeed;
 
 import me.untoldstories.be.story.StoryInternalAPI;
-import me.untoldstories.be.story.dtos.Story;
+import me.untoldstories.be.story.pojos.Story;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
