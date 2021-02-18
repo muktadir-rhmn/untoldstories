@@ -3,7 +3,7 @@ package me.untoldstories.be.reply;
 import me.untoldstories.be.constants.Reaction;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.reply.repos.ReplyReactionRepository;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,32 +33,32 @@ public class ReplyReactionCUD {
 
     @PostMapping("/{replyID}/like")
     public SingleMessageResponse like(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long replyID,
             @RequestBody @Valid AddReplyReactionRequest request
     ) {
-        replyReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), request.commentID, replyID, Reaction.LIKE);
+        replyReactionRepository.addAndRemovePreviousOnes(signedInUserDescriptor.getUserID(), request.commentID, replyID, Reaction.LIKE);
 
         return SingleMessageResponse.OK;
     }
 
     @PostMapping("/{replyID}/dislike")
     public SingleMessageResponse dislike(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long replyID,
             @RequestBody @Valid AddReplyReactionRequest request
     ) {
-        replyReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), request.commentID, replyID, Reaction.DISLIKE);
+        replyReactionRepository.addAndRemovePreviousOnes(signedInUserDescriptor.getUserID(), request.commentID, replyID, Reaction.DISLIKE);
 
         return SingleMessageResponse.OK;
     }
 
     @DeleteMapping("/{replyID}/reactions")
     public SingleMessageResponse removeReactions(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long replyID
     ) {
-        boolean existed = replyReactionRepository.removeIfExists(userDescriptor.getUserID(), replyID);
+        boolean existed = replyReactionRepository.removeIfExists(signedInUserDescriptor.getUserID(), replyID);
 
         if (existed) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

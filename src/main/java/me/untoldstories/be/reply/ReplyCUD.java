@@ -3,14 +3,17 @@ package me.untoldstories.be.reply;
 
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.reply.repos.ReplyRepository;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleIDResponse;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
 
@@ -46,20 +49,20 @@ public final class ReplyCUD {
 
     @PostMapping("")
     public SingleIDResponse addReply(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @RequestBody @Valid AddReplyRequest request
     ) {
-        Long replyID = replyRepository.add(userDescriptor.getUserID(), request.storyID, request.commentID, request.body);
+        Long replyID = replyRepository.add(signedInUserDescriptor.getUserID(), request.storyID, request.commentID, request.body);
         return new SingleIDResponse(replyID);
     }
 
     @PutMapping("/{replyID}")
     public SingleMessageResponse updateReply(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long replyID,
             @RequestBody @Valid UpdateReplyRequest request
     ) {
-        boolean exists = replyRepository.updateIfExists(userDescriptor.getUserID(), replyID, request.body);
+        boolean exists = replyRepository.updateIfExists(signedInUserDescriptor.getUserID(), replyID, request.body);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
@@ -67,10 +70,10 @@ public final class ReplyCUD {
 
     @DeleteMapping("/{replyID}")
     public SingleMessageResponse deleteReply(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long replyID
     ) {
-        boolean exists = replyRepository.deleteIfExists(userDescriptor.getUserID(), replyID);
+        boolean exists = replyRepository.deleteIfExists(signedInUserDescriptor.getUserID(), replyID);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

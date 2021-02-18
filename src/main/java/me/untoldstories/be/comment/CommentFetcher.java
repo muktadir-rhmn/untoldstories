@@ -1,7 +1,7 @@
 package me.untoldstories.be.comment;
 
 import me.untoldstories.be.comment.dtos.Comment;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,11 +27,11 @@ public class CommentFetcher {
 
     @GetMapping("")
     public FetchCommentsOfStoryResponse fetchCommentsOfStory (
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @RequestParam long storyID
     ) {
         FetchCommentsOfStoryResponse response = new FetchCommentsOfStoryResponse();
-        response.comments = commentDetailsAggregator.fetchCommentsOfStory(storyID, userDescriptor.getUserID());
+        response.comments = commentDetailsAggregator.fetchCommentsOfStory(storyID, signedInUserDescriptor.getUserID());
         return response;
     }
 }

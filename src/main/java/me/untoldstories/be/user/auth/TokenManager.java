@@ -9,7 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import me.untoldstories.be.config.ConfigurationManager;
 import me.untoldstories.be.config.pojos.JWTConfiguration;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 
 import java.util.Map;
 
@@ -32,13 +32,12 @@ public class TokenManager {
                 .build();
     }
 
-    public String generateToken(long userID, String userName) {
+    public String generateToken(long userID) {
         String token = null;
         try {
             token = JWT.create()
                     .withIssuer(configuration.issuer)
                     .withClaim("userID", userID)
-                    .withClaim("userName", userName)
                     .sign(signingAlgorithm);
         } catch (JWTCreationException exception){
             exception.printStackTrace();
@@ -47,16 +46,15 @@ public class TokenManager {
         return token;
     }
 
-    public UserDescriptor verifyTokenAndDecodeData(String token) {
+    public SignedInUserDescriptor verifyTokenAndDecodeData(String token) {
         if (token == null) return null;
 
         try {
             DecodedJWT decodedToken = tokenVerifier.verify(token);
             Map<String, Claim> claimMap = decodedToken.getClaims();
             long userID = claimMap.get("userID").asLong();
-            String userName = claimMap.get("userName").asString();
 
-            return new UserDescriptor(userID, userName);
+            return new SignedInUserDescriptor(userID);
         } catch (JWTCreationException | JWTDecodeException exception){
             return null;
         }

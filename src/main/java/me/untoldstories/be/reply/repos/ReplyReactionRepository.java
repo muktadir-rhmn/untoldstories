@@ -4,12 +4,9 @@ import me.untoldstories.be.utils.Assertion;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +43,7 @@ public class ReplyReactionRepository {
         Map<Long, int[]> replyReactionMap = new HashMap<>();
         jdbcTemplate.query(sql, resultSet -> {
             long replyID = resultSet.getLong("replyID");
-            int[] nReactions = replyReactionMap.get(replyID);
-            if (nReactions == null) {
-                nReactions = new int[]{0, 0};
-                replyReactionMap.put(replyID, nReactions);
-            }
+            int[] nReactions = replyReactionMap.computeIfAbsent(replyID, k -> new int[]{0, 0});
             nReactions[resultSet.getByte("reaction") - 1] = resultSet.getInt("nReactions");
         });
 

@@ -3,7 +3,7 @@ package me.untoldstories.be.story;
 import me.untoldstories.be.constants.StoryPrivacy;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.story.repos.StoryRepository;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleIDResponse;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.hibernate.validator.constraints.Range;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -43,20 +42,20 @@ public final class StoryCUD {
 
     @PostMapping("")
     public SingleIDResponse addStory(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @RequestBody @Valid AddUpdateStoryRequest request
     ) {
-        Long storyID = storyRepository.add(userDescriptor.getUserID(), request.body, request.privacy);
+        Long storyID = storyRepository.add(signedInUserDescriptor.getUserID(), request.body, request.privacy);
         return new SingleIDResponse(storyID);
     }
 
     @PutMapping("/{storyID}")
     public SingleMessageResponse updateStory(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable Long storyID,
             @RequestBody @Valid AddUpdateStoryRequest request
     ) {
-        boolean exists = storyRepository.updateIfExists(userDescriptor.getUserID(), storyID, request.body, request.privacy);
+        boolean exists = storyRepository.updateIfExists(signedInUserDescriptor.getUserID(), storyID, request.body, request.privacy);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
@@ -64,11 +63,11 @@ public final class StoryCUD {
 
     @PutMapping("/{storyID}/privacy")
     public SingleMessageResponse updateStoryPrivacy(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable Long storyID,
             @RequestBody @Valid UpdateStoryPrivacyRequest request
     ) {
-        boolean exists = storyRepository.updatePrivacyIfExists(userDescriptor.getUserID(), storyID, request.privacy);
+        boolean exists = storyRepository.updatePrivacyIfExists(signedInUserDescriptor.getUserID(), storyID, request.privacy);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
@@ -76,10 +75,10 @@ public final class StoryCUD {
 
     @DeleteMapping("/{storyID}")
     public SingleMessageResponse deleteStory(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable Long storyID
     ) {
-        boolean exists = storyRepository.deleteIfExists(userDescriptor.getUserID(), storyID);
+        boolean exists = storyRepository.deleteIfExists(signedInUserDescriptor.getUserID(), storyID);
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
     }

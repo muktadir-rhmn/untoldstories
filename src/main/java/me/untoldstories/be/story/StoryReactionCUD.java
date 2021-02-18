@@ -3,7 +3,7 @@ package me.untoldstories.be.story;
 import me.untoldstories.be.constants.Reaction;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.story.repos.StoryReactionRepository;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,20 +22,20 @@ public class StoryReactionCUD {
 
     @PostMapping("/{storyID}/like")
     public SingleMessageResponse like(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long storyID
     ) {
-        storyReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), storyID, Reaction.LIKE);
+        storyReactionRepository.addAndRemovePreviousOnes(signedInUserDescriptor.getUserID(), storyID, Reaction.LIKE);
 
         return SingleMessageResponse.OK;
     }
 
     @DeleteMapping("/{storyID}/reactions")
     public SingleMessageResponse removeReactions(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long storyID
     ) {
-        boolean existed = storyReactionRepository.removeIfExists(userDescriptor.getUserID(), storyID);
+        boolean existed = storyReactionRepository.removeIfExists(signedInUserDescriptor.getUserID(), storyID);
 
         if (existed) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

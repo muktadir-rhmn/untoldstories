@@ -3,7 +3,7 @@ package me.untoldstories.be.comment;
 import me.untoldstories.be.comment.repos.CommentReactionRepository;
 import me.untoldstories.be.constants.Reaction;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
-import me.untoldstories.be.user.pojos.UserDescriptor;
+import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
 import me.untoldstories.be.utils.dtos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,32 +30,32 @@ public class CommentReactionCUD {
 
     @PostMapping("/{commentID}/like")
     public SingleMessageResponse like(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long commentID,
             @RequestBody @Valid AddCommentReactionRequest request
     ) {
-        commentReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), request.storyID, commentID, Reaction.LIKE);
+        commentReactionRepository.addAndRemovePreviousOnes(signedInUserDescriptor.getUserID(), request.storyID, commentID, Reaction.LIKE);
 
         return SingleMessageResponse.OK;
     }
 
     @PostMapping("/{commentID}/dislike")
     public SingleMessageResponse dislike(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long commentID,
             @RequestBody @Valid AddCommentReactionRequest request
     ) {
-        commentReactionRepository.addAndRemovePreviousOnes(userDescriptor.getUserID(), request.storyID, commentID, Reaction.DISLIKE);
+        commentReactionRepository.addAndRemovePreviousOnes(signedInUserDescriptor.getUserID(), request.storyID, commentID, Reaction.DISLIKE);
 
         return SingleMessageResponse.OK;
     }
 
     @DeleteMapping("/{commentID}/reactions")
     public SingleMessageResponse removeReactions(
-            @RequestAttribute("user") UserDescriptor userDescriptor,
+            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
             @PathVariable long commentID
     ) {
-        boolean existed = commentReactionRepository.removeIfExists(userDescriptor.getUserID(), commentID);
+        boolean existed = commentReactionRepository.removeIfExists(signedInUserDescriptor.getUserID(), commentID);
 
         if (existed) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

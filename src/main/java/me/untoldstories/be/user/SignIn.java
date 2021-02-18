@@ -66,7 +66,7 @@ public final class SignIn {
         String hashedPassword = passwordHasher.hash(request.password);
         if (userEntity == null || !userEntity.password.equals(hashedPassword)) throw noUserException;
 
-        String token = tokenManager.generateToken(userEntity.id, userEntity.userName);
+        String token = tokenManager.generateToken(userEntity.id);
 
         return new SignInResponse(token, userEntity.id, userEntity.userName);
     }
