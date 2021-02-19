@@ -1,6 +1,6 @@
 package me.untoldstories.be.user.auth;
 
-import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
+import me.untoldstories.be.user.auth.pojos.SignedInUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -16,7 +16,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     private final TokenManager tokenManager = TokenManager.getInstance();
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if(request.getMethod().equals("OPTIONS")) return true; //for CORS
 
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -26,14 +26,14 @@ public class AuthInterceptor implements HandlerInterceptor {
         boolean signInRequired = !handlerMethod.hasMethodAnnotation(SigninNotRequired.class);
 
         String token = request.getHeader("token");
-        SignedInUserDescriptor signedInUserDescriptor = tokenManager.verifyTokenAndDecodeData(token);
+        SignedInUser signedInUser = tokenManager.verifyTokenAndDecodeData(token);
 
-        if (signedInUserDescriptor == null && signInRequired) {
+        if (signedInUser == null && signInRequired) {
             addErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Sign in required to access this api");
             return false;
         }
 
-        request.setAttribute("user", signedInUserDescriptor);
+        request.setAttribute("user", signedInUser);
         return true;
     }
 

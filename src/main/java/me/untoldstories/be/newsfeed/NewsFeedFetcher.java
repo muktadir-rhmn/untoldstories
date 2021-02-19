@@ -2,7 +2,7 @@ package me.untoldstories.be.newsfeed;
 
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.story.pojos.Story;
-import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
+import me.untoldstories.be.user.auth.pojos.SignedInUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +24,13 @@ public class NewsFeedFetcher {
 
     @GetMapping()
     public NewsFeedResponse fetchStories(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @RequestParam int pageNo
     ) {
         if (pageNo < 0 || pageNo > 50) throw SingleErrorMessageException.DOES_NOT_EXIST;
 
         NewsFeedResponse response = new NewsFeedResponse();
-        response.stories = newsFeedCache.fetchStories(pageNo, signedInUserDescriptor.getUserID());
+        response.stories = newsFeedCache.fetchStories(pageNo, signedInUser.getUserID());
         return response;
     }
 }

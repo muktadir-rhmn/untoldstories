@@ -2,7 +2,7 @@ package me.untoldstories.be.comment;
 
 import me.untoldstories.be.comment.repos.CommentRepository;
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
-import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
+import me.untoldstories.be.user.auth.pojos.SignedInUser;
 import me.untoldstories.be.utils.pojos.SingleIDResponse;
 import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,20 +45,20 @@ public final class CommentCUD {
 
     @PostMapping("")
     public SingleIDResponse addComment(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @RequestBody @Valid AddCommentRequest request
     ) {
-        Long commentID = commentRepository.add(signedInUserDescriptor.getUserID(), request.body, request.storyID);
+        Long commentID = commentRepository.add(signedInUser.getUserID(), request.body, request.storyID);
         return new SingleIDResponse(commentID);
     }
 
     @PutMapping("/{commentID}")
     public SingleMessageResponse updateComment(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @PathVariable long commentID,
             @RequestBody @Valid UpdateCommentRequest request
     ) {
-        boolean exists = commentRepository.updateIfExists(signedInUserDescriptor.getUserID(), commentID, request.body);
+        boolean exists = commentRepository.updateIfExists(signedInUser.getUserID(), commentID, request.body);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
@@ -66,10 +66,10 @@ public final class CommentCUD {
 
     @DeleteMapping("/{commentID}")
     public SingleMessageResponse deleteComment(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @PathVariable long commentID
     ) {
-        boolean exists = commentRepository.deleteIfExists(signedInUserDescriptor.getUserID(), commentID);
+        boolean exists = commentRepository.deleteIfExists(signedInUser.getUserID(), commentID);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

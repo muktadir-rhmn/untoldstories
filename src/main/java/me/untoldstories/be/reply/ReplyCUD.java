@@ -3,7 +3,7 @@ package me.untoldstories.be.reply;
 
 import me.untoldstories.be.error.exceptions.SingleErrorMessageException;
 import me.untoldstories.be.reply.repos.ReplyRepository;
-import me.untoldstories.be.user.pojos.SignedInUserDescriptor;
+import me.untoldstories.be.user.auth.pojos.SignedInUser;
 import me.untoldstories.be.utils.pojos.SingleIDResponse;
 import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,20 +49,20 @@ public final class ReplyCUD {
 
     @PostMapping("")
     public SingleIDResponse addReply(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @RequestBody @Valid AddReplyRequest request
     ) {
-        Long replyID = replyRepository.add(signedInUserDescriptor.getUserID(), request.storyID, request.commentID, request.body);
+        Long replyID = replyRepository.add(signedInUser.getUserID(), request.storyID, request.commentID, request.body);
         return new SingleIDResponse(replyID);
     }
 
     @PutMapping("/{replyID}")
     public SingleMessageResponse updateReply(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @PathVariable long replyID,
             @RequestBody @Valid UpdateReplyRequest request
     ) {
-        boolean exists = replyRepository.updateIfExists(signedInUserDescriptor.getUserID(), replyID, request.body);
+        boolean exists = replyRepository.updateIfExists(signedInUser.getUserID(), replyID, request.body);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;
@@ -70,10 +70,10 @@ public final class ReplyCUD {
 
     @DeleteMapping("/{replyID}")
     public SingleMessageResponse deleteReply(
-            @RequestAttribute("user") SignedInUserDescriptor signedInUserDescriptor,
+            @RequestAttribute("user") SignedInUser signedInUser,
             @PathVariable long replyID
     ) {
-        boolean exists = replyRepository.deleteIfExists(signedInUserDescriptor.getUserID(), replyID);
+        boolean exists = replyRepository.deleteIfExists(signedInUser.getUserID(), replyID);
 
         if (exists) return SingleMessageResponse.OK;
         else throw SingleErrorMessageException.DOES_NOT_EXIST;

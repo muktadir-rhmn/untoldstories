@@ -63,6 +63,15 @@ class GlobalExceptionHandler {
         return messageNotReadableErrorResponse;
     }
 
+    /***
+     * above mentioned exceptions are generated only if an invalid request is sent, either because of FE bug or someone who is trying to exploit.
+     * The end users have nothing to do with it.
+     *
+     * But the exceptions below (except for Internal Server Error) are generated to handle user data validation related errors
+     * which are usually shown to the end user. For example, password length more/less than expected.
+     *
+     */
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, Object> handleErrorMessagePerFieldGeneratedByValidator(MethodArgumentNotValidException ex) {
