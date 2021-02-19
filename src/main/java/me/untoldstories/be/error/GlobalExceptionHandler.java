@@ -27,6 +27,7 @@ import java.util.Map;
 class GlobalExceptionHandler {
     private final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final static String BAD_REQUEST_ERROR_RESPONSE_CODE_LABEL = "id";
+    private final static String BAD_REQUEST_SINGLE_MSG_ERROR_RESPONSE_CODE_LABEL = "msg";
 
     //instead of creating a new SingleMessageResponse at each request, the response is cached.
     private final SingleMessageResponse methodNotSupportedErrorResponse =  new SingleMessageResponse("Method Not Allowed");
@@ -49,7 +50,7 @@ class GlobalExceptionHandler {
         return new SingleMessageResponse(exception.getMessage());
     }
 
-    private final SingleMessageResponse mediaTypeNotSupportedErrorResponse = new SingleMessageResponse("Media type not supported");
+    private final SingleMessageResponse mediaTypeNotSupportedErrorResponse = new SingleMessageResponse("Unsupported Content-Type");
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public Object handleMediaTypeNotSupportedError(HttpServletRequest request, Exception exception) {
@@ -95,7 +96,7 @@ class GlobalExceptionHandler {
         Map<String, Object> errors = new HashMap<>();
 
         errors.put(BAD_REQUEST_ERROR_RESPONSE_CODE_LABEL, ErrorResponseCode.SINGLE_ERROR_MESSAGE);
-        errors.put("msg", validationException.getMessage());
+        errors.put(BAD_REQUEST_SINGLE_MSG_ERROR_RESPONSE_CODE_LABEL, validationException.getMessage());
 
         return errors;
     }
@@ -105,7 +106,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Object handleInternalServerError(HttpServletRequest request, Exception exception) {
         //todo: send an email
-        String requestInfo = new StringBuilder("Server Error:: ").append(request.getMethod()).append(" ").append(request.getRequestURL()).toString();
+        String requestInfo = new StringBuilder("Internal Server Error:: ").append(request.getMethod()).append(" ").append(request.getRequestURL()).toString();
         logger.error(requestInfo, exception);
 
         return internalServerErrorResponse;
