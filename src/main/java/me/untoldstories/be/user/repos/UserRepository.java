@@ -51,8 +51,12 @@ public final class UserRepository {
 		String sql = "SELECT userName FROM users WHERE id=?";
 
 		user.id = userID;
-		user.userName = jdbcTemplate.queryForObject(sql, String.class, userID);
-		return user;
+		try {
+			user.userName = jdbcTemplate.queryForObject(sql, String.class, userID);
+			return user;
+		} catch (EmptyResultDataAccessException exception) {
+			return null;
+		}
 	}
 
 	public Map<Long, User> fetchUserNamesByIDs(String userIDList) {

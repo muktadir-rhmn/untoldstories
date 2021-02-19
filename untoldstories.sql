@@ -1,6 +1,7 @@
 create user untoldstories identified by '150250';
 create database untoldstories;
 grant all on untoldstories.* to untoldstories;
+flush privileges;
 use untoldstories;
 
 create table comments

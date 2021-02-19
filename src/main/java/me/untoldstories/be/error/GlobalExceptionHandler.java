@@ -29,6 +29,9 @@ class GlobalExceptionHandler {
     private final static String BAD_REQUEST_ERROR_RESPONSE_CODE_LABEL = "id";
     private final static String BAD_REQUEST_SINGLE_MSG_ERROR_RESPONSE_CODE_LABEL = "msg";
 
+    /**
+     * The following exception will be generated due to FE bug/Exploit. The end-user has nothing to do with it.
+     */
     //instead of creating a new SingleMessageResponse at each request, the response is cached.
     private final SingleMessageResponse methodNotSupportedErrorResponse =  new SingleMessageResponse("Method Not Allowed");
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
@@ -64,12 +67,8 @@ class GlobalExceptionHandler {
     }
 
     /***
-     * above mentioned exceptions are generated only if an invalid request is sent, either because of FE bug or someone who is trying to exploit.
-     * The end users have nothing to do with it.
-     *
-     * But the exceptions below (except for Internal Server Error) are generated to handle user data validation related errors
-     * which are usually shown to the end user. For example, password length more/less than expected.
-     *
+     * The following exceptions are generated to handle validation errors of the data entered by users
+     * which are usually shown to the end user for correction. For example, password length more/less than expected.
      */
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -110,6 +109,9 @@ class GlobalExceptionHandler {
         return errors;
     }
 
+    /***
+     * the following exceptions will be generated if there is a bug in BE
+     */
     private final SingleMessageResponse internalServerErrorResponse = new SingleMessageResponse("Internal Server Error");
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
