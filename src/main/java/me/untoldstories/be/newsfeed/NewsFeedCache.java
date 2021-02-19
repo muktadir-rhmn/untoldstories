@@ -41,6 +41,10 @@ public class NewsFeedCache {
     public void scheduledTask() {
         System.out.println("ScheduledTask: Going to fetch from Story Module");
         List<Story> recentStories = storyInternalAPI.fetchRecentPublicStories(0, BUCKET_SIZE * PAGE_SIZE);
+        if (recentStories.size() == 0) {
+            nBuckets = 0;
+            return;
+        }
 
         int r = 0;
         int c = 0;
