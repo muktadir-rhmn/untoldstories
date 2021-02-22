@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_BASE_PATH;
 
 class FetchRepliesOfCommentResponse {
     public List<Reply> replies;
 }
 
 @RestController
-@RequestMapping(REPLY_SERVICE_API_ROOT_PATH)
+@RequestMapping(REPLY_SERVICE_API_BASE_PATH)
 public class ReplyFetcher {
     private final ReplyDetailsAggregator replyDetailsAggregator;
 

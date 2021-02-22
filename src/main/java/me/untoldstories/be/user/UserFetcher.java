@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_BASE_PATH;
 
 @RestController
-@RequestMapping(USER_SERVICE_API_ROOT_PATH)
+@RequestMapping(USER_SERVICE_API_BASE_PATH)
 public class UserFetcher {
     private final UserRepository userRepository;
 

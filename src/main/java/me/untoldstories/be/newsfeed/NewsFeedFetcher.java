@@ -6,14 +6,14 @@ import me.untoldstories.be.user.auth.pojos.SignedInUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static me.untoldstories.be.newsfeed.MetaData.NEWSFEED_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.newsfeed.MetaData.NEWSFEED_SERVICE_API_BASE_PATH;
 
 class NewsFeedResponse {
     public Story[] stories;
 }
 
 @RestController
-@RequestMapping(NEWSFEED_SERVICE_API_ROOT_PATH)
+@RequestMapping(NEWSFEED_SERVICE_API_BASE_PATH)
 public class NewsFeedFetcher {
     private final NewsFeedCache newsFeedCache;
 

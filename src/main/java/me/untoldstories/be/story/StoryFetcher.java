@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_BASE_PATH;
 
 class FetchStoriesResponse {
     public List<Story> stories;
 }
 
 @RestController
-@RequestMapping(STORY_SERVICE_API_ROOT_PATH)
+@RequestMapping(STORY_SERVICE_API_BASE_PATH)
 public class StoryFetcher {
     private final StoryRepository storyRepository;
     private final StoryDetailsAggregator storyDetailsAggregator;

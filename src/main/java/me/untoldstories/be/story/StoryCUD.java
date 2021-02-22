@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_BASE_PATH;
 
 class AddUpdateStoryRequest {
     @NotBlank(message = "Story must not be empty")
@@ -31,7 +31,7 @@ class UpdateStoryPrivacyRequest {
 }
 
 @RestController
-@RequestMapping(STORY_SERVICE_API_ROOT_PATH)
+@RequestMapping(STORY_SERVICE_API_BASE_PATH)
 public final class StoryCUD {
     private final StoryRepository storyRepository;
 

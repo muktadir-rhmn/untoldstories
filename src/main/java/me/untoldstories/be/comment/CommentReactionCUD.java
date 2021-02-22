@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_BASE_PATH;
 
 class AddCommentReactionRequest {
     @NotNull
@@ -19,7 +19,7 @@ class AddCommentReactionRequest {
 }
 
 @RestController
-@RequestMapping(COMMENT_SERVICE_API_ROOT_PATH)
+@RequestMapping(COMMENT_SERVICE_API_BASE_PATH)
 public class CommentReactionCUD {
     private final CommentReactionRepository commentReactionRepository;
 

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.comment.MetaData.COMMENT_SERVICE_API_BASE_PATH;
 
 
 class AddCommentRequest {
@@ -34,7 +34,7 @@ class UpdateCommentRequest {
 }
 
 @RestController
-@RequestMapping(COMMENT_SERVICE_API_ROOT_PATH)
+@RequestMapping(COMMENT_SERVICE_API_BASE_PATH)
 public final class CommentCUD {
     private final CommentRepository commentRepository;
 

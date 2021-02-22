@@ -8,10 +8,10 @@ import me.untoldstories.be.utils.pojos.SingleMessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.story.MetaData.STORY_SERVICE_API_BASE_PATH;
 
 @RestController
-@RequestMapping(STORY_SERVICE_API_ROOT_PATH)
+@RequestMapping(STORY_SERVICE_API_BASE_PATH)
 public class StoryReactionCUD {
     private final StoryReactionRepository storyReactionRepository;
 

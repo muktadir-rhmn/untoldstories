@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_BASE_PATH;
 
 class AddReplyRequest {
     @NotBlank(message = "Reply must not be blank")
@@ -38,7 +38,7 @@ class UpdateReplyRequest {
 }
 
 @RestController
-@RequestMapping(REPLY_SERVICE_API_ROOT_PATH)
+@RequestMapping(REPLY_SERVICE_API_BASE_PATH)
 public final class ReplyCUD {
     private final ReplyRepository replyRepository;
 

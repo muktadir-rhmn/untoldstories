@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_BASE_PATH;
 
 class SignUpRequest {
 
@@ -30,7 +30,7 @@ class SignUpRequest {
 }
 
 @RestController
-@RequestMapping(USER_SERVICE_API_ROOT_PATH)
+@RequestMapping(USER_SERVICE_API_BASE_PATH)
 public final class SignUp {
     private final UserRepository usersRepository;
     private final PasswordHasher passwordHasher;

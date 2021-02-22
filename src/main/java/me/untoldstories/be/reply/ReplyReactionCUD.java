@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.reply.MetaData.REPLY_SERVICE_API_BASE_PATH;
 
 class AddReplyReactionRequest {
     @NotNull
@@ -22,7 +22,7 @@ class AddReplyReactionRequest {
  * A user can have at most one reaction to a single entity
  */
 @RestController
-@RequestMapping(REPLY_SERVICE_API_ROOT_PATH)
+@RequestMapping(REPLY_SERVICE_API_BASE_PATH)
 public class ReplyReactionCUD {
     private final ReplyReactionRepository replyReactionRepository;
 

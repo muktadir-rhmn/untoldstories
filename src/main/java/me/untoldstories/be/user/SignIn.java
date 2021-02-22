@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_ROOT_PATH;
+import static me.untoldstories.be.user.MetaData.USER_SERVICE_API_BASE_PATH;
 
 class SignInRequest {
     @NotBlank(message = "User Name is required")
@@ -40,7 +40,7 @@ class SignInResponse {
 }
 
 @RestController
-@RequestMapping(USER_SERVICE_API_ROOT_PATH)
+@RequestMapping(USER_SERVICE_API_BASE_PATH)
 public final class SignIn {
     private final PasswordHasher passwordHasher;
     private final UserRepository usersRepository;
