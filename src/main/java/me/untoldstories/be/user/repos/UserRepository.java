@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-public final class UserRepository {
+public class UserRepository {
 	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
