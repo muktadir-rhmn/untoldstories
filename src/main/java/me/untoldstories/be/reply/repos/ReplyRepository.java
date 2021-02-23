@@ -5,12 +5,12 @@ import me.untoldstories.be.reply.pojos.Reply;
 import me.untoldstories.be.utils.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Repository
 public class ReplyRepository {
     private final JdbcTemplate jdbcTemplate;
 
